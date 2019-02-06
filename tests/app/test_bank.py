@@ -138,28 +138,3 @@ class TestBank(unittest.TestCase):
                                  recipient=einstein,
                                  subject='Bücher',
                                  amount=100)
-
-    def test_add_transaction_with_invalid_recipient(self):
-        bank = app.Bank('GLS')
-        self.assertEqual(bank.transactions, [])
-
-        # Just the dict
-        einstein = {
-            'number': 1,
-            'firstname': 'Albert',
-            'lastname': 'Einstein',
-        }
-
-        # Add account
-        ehrenfest = bank.open_account({
-            'number': 2,
-            'firstname': 'Paul',
-            'lastname': 'Ehrenfest',
-        })
-
-        message = 'Recipient has no account yet!'
-        with self.assertRaisesRegex(AssertionError, message):
-            bank.add_transaction(sender=ehrenfest,
-                                 recipient=einstein,
-                                 subject='Bücher',
-                                 amount=100)

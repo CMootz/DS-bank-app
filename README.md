@@ -22,6 +22,7 @@ jupyter notebook
 
 ## Lessons
 
+
 ### Lesson 1
 
 ```bash
