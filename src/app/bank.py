@@ -6,7 +6,7 @@ class Bank:
 
     def open_account(self, account):
         for item in self.accounts:
-                assert item['number'] != account['number'], 'Account number 1 already taken!'
+            assert item['number'] != account['number'], 'Account number 1 already taken!'
         self.accounts.append(account)
         return self.accounts[-1]
 
@@ -18,17 +18,17 @@ class Bank:
         message = 'Amount has to be greater than 0'
         assert amount > 0, message
 
-        sendervorhanden = 0
+        senderexists = 0
         for item in self.accounts:
             if item['number'] == sender['number']:
-                sendervorhanden = 1
-        assert sendervorhanden == 1, 'Sender has no account yet!'
+                senderexists = 1
+        assert senderexists == 1, 'Sender has no account yet!'
 
-        empfvorhanden = 0
+        recipientexists = 0
         for item in self.accounts:
             if item['number'] == recipient['number']:
-                empfvorhanden = 1
-        assert empfvorhanden == 1, 'Recipient has no account yet!'
+                recipientexists = 1
+        assert recipientexists == 1, 'Recipient has no account yet!'
 
         self.transactions.append(transaction)
         return transaction
