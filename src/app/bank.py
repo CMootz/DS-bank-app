@@ -16,13 +16,13 @@ class Bank:
 
     def add_transaction(self, *, sender, recipient, subject, amount):
         self._check_greater_zero(amount, 'Amount')
-        self._check_person_exists(sender.number, 'Sender')
-        self._check_person_exists(recipient.number, 'Recipient')
+        self._check_account_exists(sender.number, 'Sender')
+        self._check_account_exists(recipient.number, 'Recipient')
+        assert sender.has_funds_for(amount), 'Account has not enough funds'
         transaction = app.Transaction(sender=sender.number, recipient=recipient.number, subject=subject, amount=amount)
-        assert self.accounts[sender.number].has_funds_for(amount), 'Account has not enough funds'
         self.transactions.append(transaction)
-        self.accounts[sender.number].subtract_from_balance(amount)
-        self.accounts[recipient.number].add_to_balance(amount)
+        sender.subtract_from_balance(amount)
+        recipient.add_to_balance(amount)
 
         return transaction
 
@@ -35,6 +35,6 @@ class Bank:
         message = name + ' needs to be greater than 0'
         assert number > 0.0, message
 
-    def _check_person_exists(self, number, name):
+    def _check_account_exists(self, number, name):
         message = name + ' has no account yet!'
         assert number in self.accounts, message
