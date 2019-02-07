@@ -21,8 +21,8 @@ class Bank:
         transaction = app.Transaction(sender=sender.number, recipient=recipient.number, subject=subject, amount=amount)
         assert self.accounts[sender.number].has_funds_for(amount), 'Account has not enough funds'
         self.transactions.append(transaction)
-        self.accounts[sender.number].balance = self.accounts[sender.number].balance - amount
-        self.accounts[recipient.number].balance = self.accounts[recipient.number].balance + amount
+        self.accounts[sender.number].subtract_from_balance(amount)
+        self.accounts[recipient.number].add_to_balance(amount)
 
         return transaction
 
