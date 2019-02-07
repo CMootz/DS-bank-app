@@ -25,7 +25,3 @@ class Transaction:
     def info(self):
         return 'From ' + str(self.sender) + ' to ' + str(self.recipient) + ': ' + self.subject + ' - ' + \
                str(self.amount) + ' €'
-
-
-
-

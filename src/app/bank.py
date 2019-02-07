@@ -38,4 +38,3 @@ class Bank:
     def _check_person_exists(self, number, name):
         message = name + ' has no account yet!'
         assert number in self.accounts, message
-
