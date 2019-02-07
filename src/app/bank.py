@@ -9,7 +9,7 @@ class Bank:
 
     def open_account(self, account):
         self._check_typus(account, 'Account', app.Account)
-        message = 'Account number 1 already taken!'
+        message = 'Account number %s already taken!' % str(account.number)
         assert account.number not in self.accounts, message
         self.accounts[account.number] = account
         return account
