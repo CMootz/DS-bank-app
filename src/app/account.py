@@ -19,11 +19,9 @@ class Account:
     def add_to_balance(self, amount):
         message = 'Amount needs to be greater than 0'
         assert amount > 0, message
-        if amount > 0:
-            self.balance = self.balance + amount
+        self.balance = self.balance + amount
 
     def subtract_from_balance(self, amount):
         message = 'Account has not enough funds'
         assert self.has_funds_for(amount), message
-        if self.has_funds_for(amount):
-            self.balance = self.balance - amount
+        self.balance = self.balance - amount
