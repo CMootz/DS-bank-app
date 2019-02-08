@@ -38,6 +38,11 @@ class Bank:
         filtered = filter(lambda transact: transact.timestamp.date() <= date_end, filtered)
         return list(filtered)
 
+    def _filter_transactionlist_for_account_bydates_end(self, date_start, date_end, flist):
+        filtered = filter(lambda transact: transact.timestamp.date() > date_start, flist)
+        filtered = filter(lambda transact: transact.timestamp.date() <= date_end, filtered)
+        return list(filtered)
+
     def print_bankstatement_all(self, accountnumber):
         transactionlist = self._build_transactionlist_for_account(accountnumber)
         transactionlist.sort(key=lambda transact: transact.timestamp.date())
@@ -84,7 +89,7 @@ class Bank:
         transactionlist = self._build_transactionlist_for_account(accountnumber)
         transactionlist_timespan = self._filter_transactionlist_for_account_bydates(date_start.date(), date_end.date(), transactionlist)
         actualdt = datetime.now()
-        transactionlist_now2end = self._filter_transactionlist_for_account_bydates(date_end.date(), actualdt.date(), transactionlist)
+        transactionlist_now2end = self._filter_transactionlist_for_account_bydates_end(date_end.date(), actualdt.date(), transactionlist)
 
         transactionlist_timespan.sort(key=lambda transact: transact.timestamp.date())
 
@@ -104,6 +109,7 @@ class Bank:
                 value_old = value_old + item.amount
             if item.recipient == accountnumber:
                 value_old = value_old - item.amount
+
         print(' Kontostand in EUR am {day:02d}.{month:02d}.{year:04d} {hour:02d}:{minute:02d}{old:>50.2f}'
               .format(day=date_start.day,
                       month=date_start.month,
@@ -144,3 +150,16 @@ class Bank:
     def _check_account_exists(self, number, name):
         message = name + ' has no account yet!'
         assert number in self.accounts, message
+
+    def info_min_max_transaction(self):
+        amounts = []
+        for item in self.transactions:
+            amounts.append(item.amount)
+        maximum = max(amounts)
+        minimum = min(amounts)
+        average = sum(amounts) / len(amounts)
+
+        print(maximum, minimum, average )
+
+        return {'Max': maximum, 'Min': minimum, 'Average': average}
+
