@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 class Transaction:
     def __init__(self, *, sender, recipient, subject, amount):
 
@@ -9,6 +12,7 @@ class Transaction:
         self._check_typus(amount, 'Amount', float)
         self._check_greater_zero(amount, 'Amount')
         self.amount = amount
+        self.timestamp = datetime.now()
 
     def _check_typus(self, number, typename, typus):
         if typus is int:
@@ -24,3 +28,7 @@ class Transaction:
     def info(self):
         return 'From ' + str(self.sender) + ' to ' + str(self.recipient) + ': ' + self.subject + ' - ' + \
                str(self.amount) + ' €'
+
+    def change_date(self, chday):
+        self.timestamp = self.timestamp.replace(day=chday)
+

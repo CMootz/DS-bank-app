@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 class Account:
     def __init__(self, *, firstname, lastname, number=0, balance=0.0):
         self.firstname = firstname
@@ -8,6 +11,7 @@ class Account:
         assert isinstance(balance, float), 'Balance needs to be a float'
         if isinstance(balance, float):
             self.balance = balance
+        self.dtlaststatement = datetime.now()
 
     def info(self):
         return 'Number ' + str(self.number) + ': ' + self.firstname + ' ' + self.lastname + ' - ' + str(self.balance) +\
