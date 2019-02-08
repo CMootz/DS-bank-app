@@ -34,13 +34,11 @@ class Bank:
         return list(filtered)
 
     def _filter_transactionlist_for_account_bydates(self, date_start, date_end, flist):
-        filtered = filter(lambda transact: transact.timestamp.date() >= date_start, flist)
-        filtered = filter(lambda transact: transact.timestamp.date() <= date_end, filtered)
+        filtered = filter(lambda transact: transact.timestamp.date() >= date_start and transact.timestamp.date() <= date_end, flist)
         return list(filtered)
 
     def _filter_transactionlist_for_account_bydates_end(self, date_start, date_end, flist):
-        filtered = filter(lambda transact: transact.timestamp.date() > date_start, flist)
-        filtered = filter(lambda transact: transact.timestamp.date() <= date_end, filtered)
+        filtered = filter(lambda transact: transact.timestamp.date() > date_start and transact.timestamp.date() <= date_end, flist)
         return list(filtered)
 
     def print_bankstatement_all(self, accountnumber):
