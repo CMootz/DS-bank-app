@@ -1,4 +1,5 @@
 from .bank import Bank
+from .data_preproc import DataWrapper
 
 
 def check_greater_zero(value):
@@ -8,4 +9,4 @@ def check_greater_zero(value):
         return value > 0.0
 
 
-__all__ = ['Bank']
+__all__ = ['Bank', 'DataWrapper']
