@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import scipy, scipy.stats
-
+import re
 import seaborn as sns
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -21,10 +21,14 @@ class DataWrapper:
     def read_data(self, *, path, file_type,  **kwargs):
         # file_type = 1
         my_file = Path(path)
+
         if my_file.is_file():
             if file_type == 1:
-                self.raw_data = pd.read_csv(path, **kwargs)
-                self.clean_data = self.raw_data.copy()
+                if self._check_ext_ok(path, 'csv'):
+                    self.raw_data = pd.read_csv(path, **kwargs)
+                    self.clean_data = self.raw_data.copy()
+                else:
+                    print('file has wrong extension')
             elif file_type == 2:
                 self.raw_data = pd.read_excel(path, **kwargs)
                 self.clean_data = self.raw_data.copy()
@@ -34,7 +38,7 @@ class DataWrapper:
         else:
             print("Datei {paths} existiert nicht!".format(paths=path))
 
-    def save_data(self, data, path, **kwargs):
+    def save_data_to_csv(self, data, path, **kwargs):
         data.to_csv(path, **kwargs, index=False)
         return pd.read_csv(path, **kwargs)
 
@@ -56,6 +60,7 @@ class DataWrapper:
             self.save_data(self.clean_data, path)
         if n_unique:
             self.n_unique = self.clean_data.nunique()
+            self.unique_columns = []
             for index, value in self.clean_data.nunique().iteritems():
                 if value == 1:
                     self.unique_columns.append(index)
@@ -64,3 +69,14 @@ class DataWrapper:
     def create_one_hot(self, column_list):
         categorical = pd.get_dummies(self.clean_data[column_list])
         self.one_hot_list = pd.concat([self.clean_data, categorical], axis=1, sort=False)
+
+    def get(self):
+        return self.clean_data
+
+    def put(self, data):
+        self.clean_data = data.copy()
+
+    def _check_ext_ok(self, path ,ext):
+        if re.search('\.{ext}$'.format(ext=ext), path, flags=re.IGNORECASE):
+            return True
+        return False
